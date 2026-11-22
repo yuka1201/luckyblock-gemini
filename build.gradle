@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT' // 要検証: 26.3対応のLoomバージョンに合わせて調整してください
+    id 'fabric-loom' version '1.15-SNAPSHOT' // 要検証: 26.3対応のLoomバージョンに合わせて調整してください
     id 'maven-publish'
 }
 
