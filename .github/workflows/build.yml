@@ -1,6 +1,43 @@
-- name: Build with Gradle
-        working-directory: lucky-block-mod-26.3-fabric
+name: Build Lucky Block MOD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.12'
+
+      - name: Find Gradle project and Build
         run: |
+          SETTINGS_FILE=$(find . -maxdepth 3 -name "settings.gradle" -o -name "settings.gradle.kts" | head -n 1)
+          if [ -z "$SETTINGS_FILE" ]; then
+            echo "Error: settings.gradle が見つかりませんでした。リポジトリ構成を確認してください。"
+            exit 1
+          fi
+
+          PROJECT_DIR=$(dirname "$SETTINGS_FILE")
+          echo "Gradleプロジェクトを検出しました: $PROJECT_DIR"
+          cd "$PROJECT_DIR"
+
           if [ -f "./gradlew" ]; then
             chmod +x gradlew
             ./gradlew build
@@ -13,5 +50,5 @@
         with:
           name: luckyblock-mod-jar
           path: |
-            lucky-block-mod-26.3-fabric/build/libs/*.jar
-            !lucky-block-mod-26.3-fabric/build/libs/*-sources.jar
+            **/build/libs/*.jar
+            !**/build/libs/*-sources.jar
