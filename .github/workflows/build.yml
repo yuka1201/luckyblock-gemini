@@ -1,0 +1,44 @@
+name: Build Lucky Block MOD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.12' # gradlew が無い場合でも動くように指定（Wrapperがあるならこの行は消してOK）
+
+      - name: Build with Gradle
+        run: |
+          if [ -f "./gradlew" ]; then
+            chmod +x gradlew
+            ./gradlew build
+          else
+            gradle build
+          fi
+
+      - name: Upload built JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: luckyblock-mod-jar
+          path: |
+            build/libs/*.jar
+            !build/libs/*-sources.jar
