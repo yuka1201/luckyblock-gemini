@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "luckyblock",
+  "version": "${version}",
+  "name": "Lucky Block (30 Events)",
+  "description": "Break the Lucky Block to trigger 30 random events with roulette title & BossBar UI.",
+  "authors": [
+    "Yuka Nagai",
+    "Saki Kisaragi"
+  ],
+  "contact": {},
+  "license": "All Rights Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "jp.yuka1201.luckyblock.LuckyBlockMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "fabric-api": ">=0.166.2"
+  }
+}
